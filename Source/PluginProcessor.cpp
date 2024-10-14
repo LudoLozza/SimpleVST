@@ -22,6 +22,16 @@ SimpleVSTAudioProcessor::SimpleVSTAudioProcessor()
                        )
 #endif
 {
+    // Initialize waveform
+    osc.initialise([] (float x) { return std::sin(x); }, 128);
+    
+    // Configure initial reverb parameters
+    reverbParams.roomSize = 0.1f;
+    reverbParams.damping = 0.1f;
+    reverbParams.wetLevel = 0.1f;
+    reverbParams.dryLevel = 0.9f;
+    reverbParams.width = 0.1f;
+    rev.setParameters(reverbParams);
 }
 
 SimpleVSTAudioProcessor::~SimpleVSTAudioProcessor()
@@ -93,8 +103,13 @@ void SimpleVSTAudioProcessor::changeProgramName (int index, const juce::String& 
 //==============================================================================
 void SimpleVSTAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    juce::dsp::ProcessSpec spec;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.sampleRate = sampleRate;
+    spec.numChannels = getTotalNumOutputChannels();
+    
+    osc.prepare(spec);
+    rev.prepare(spec);
 }
 
 void SimpleVSTAudioProcessor::releaseResources()
@@ -135,27 +150,58 @@ void SimpleVSTAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, ju
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    
+    juce::dsp::AudioBlock<float> audioBlock(buffer);
+    juce::dsp::ProcessContextReplacing<float> context(audioBlock);
+    
+    // If a note is being played, process the oscillator output
+    if (isNoteOn)
     {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
+        // Generate waveform
+        osc.process(context);
     }
+    
+    // Apply reverb
+    rev.process(context);
+}
+
+void SimpleVSTAudioProcessor::setWaveform (int choice)
+{
+    switch (choice)
+    {
+        case 0: // Sine wave
+            osc.initialise ([] (float x) { return std::sin(x); }, 128);
+            break;
+        case 1: // Triangle wave
+            osc.initialise([] (float x) {
+                float sawtooth = 2.0f * (x / juce::MathConstants<float>::pi - std::floor(x / juce::MathConstants<float>::pi + 0.5f));
+                return 1.0f - 2.0f * std::abs(sawtooth);
+            }, 128);
+            break;
+        case 2: // Sawtooth wave
+            osc.initialise ([] (float x) { return (2.0f / juce::MathConstants<float>::pi) * (x - juce::MathConstants<float>::pi); }, 128);
+            break;
+    }
+}
+
+void SimpleVSTAudioProcessor::noteOn(int midiNoteNumber, float velocity)
+{
+    // Convert MIDI note number to frequency
+    float frequency = juce::MidiMessage::getMidiNoteInHertz(midiNoteNumber);
+
+    // Set the oscillator's frequency of the note
+    osc.setFrequency(frequency);
+
+    // Set the note as pressed
+    isNoteOn = true;
+}
+
+void SimpleVSTAudioProcessor::noteOff(int midiNoteNumber)
+{
+    // Stop the oscillator when the note is released
+    isNoteOn = false;
 }
 
 //==============================================================================

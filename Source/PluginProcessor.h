@@ -52,8 +52,20 @@ public:
     //==============================================================================
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
+    
+    // Function to select the waveform
+    void setWaveform (int choice);
+    
+    // Function to start and stop the oscillator based on MIDI notes
+    void noteOn(int midiNoteNumber, float velocity);
+    void noteOff(int midiNoteNumber);
+    
+    juce::dsp::Oscillator<float> osc;
+    juce::dsp::Reverb rev;
+    juce::dsp::Reverb::Parameters reverbParams;
 
 private:
+    bool isNoteOn = false;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleVSTAudioProcessor)
 };
