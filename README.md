@@ -42,7 +42,7 @@ From Windows PowerShell/prompt:
 4. Compile the plugin:
     - In Xcode, select _Simple VST - Standalone_ plugin and run the project
   
-### Windows (with VisualStudio 2022)
+### Windows (with Visual Studio 2022)
 1. Clone the repository:
     - git clone https://github.com/LudoLozza/SimpleVST.git<br>
     - cd SimpleVST
