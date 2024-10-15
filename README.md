@@ -36,8 +36,24 @@ To install it from the terminal:
     Open it on Xcode
 4. Compile the plugin:
     In Xcode, select __Simple VST - Standalone__ plugin and run the project
-
-
+    
+## Contributing
+### To contribute to my project:
+1. Click the “Fork” button at the top-right corner to create your own copy of the repository
+2. From the terminal:
+    git clone https://github.com/LudoLozza/SimpleVST.git
+    cd SimpleVST
+3. Create your branch:
+    git checkout -b my-branch
+4. Make your changes:
+    Add new features or fix bugs in the code, make sure they are well-documented
+5. Commit:
+    git add .
+    git commit -m "Describe your changes"
+6. Push:
+    git push origin my-branch
+7. Submit Pull Request:
+    Go to your fork on GitHub and click the “New Pull Request” button, clearly describing the changes you’ve made.
     
     
     
