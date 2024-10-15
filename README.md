@@ -10,16 +10,16 @@ This is a simple synthesizer VST plugin built using JUCE. It includes a basic wa
 
 ## Screenshots
 <figure>
-      <img src="assets/screenshots/SimpleVST.png" alt="SimpleVST image">
+      <img src="assets/screenshots/SimpleVST.png" alt="SimpleVST image" width="400" height="400">
 </figure>
 
 ## Requirements
-- [JUCE Framework](https://juce.com/get-juce)
+- [JUCE Framework](https://juce.com/get-juce)<br>
 To install it from the terminal:
-    git clone https://github.com/juce-framework/JUCE.git
-    in JUCE/extras/Projucer/Builds/MacOSX open __Projucer.xcodeproj__
-    Build and run it 
-    From the __New Project__ wizard, in GlobalPaths set __Path to JUCE__ and __JUCE Modules_ to the right path if not already set
+    - git clone https://github.com/juce-framework/JUCE.git
+    - in JUCE/extras/Projucer/Builds/MacOSX open _Projucer.xcodeproj_
+    - Build and run it
+    - From the _New Project_ wizard, in _GlobalPaths_ set _Path to JUCE_ and _JUCE Modules_ to the right path if not already set
 - Xcode (for macOS)
 - Visual Studio (for Windows)
 
@@ -27,33 +27,33 @@ To install it from the terminal:
 
 ### macOS (with Xcode)
 1. Clone the repository:
-    git clone https://github.com/LudoLozza/SimpleVST.git
-    cd SimpleVST
+    - git clone https://github.com/LudoLozza/SimpleVST.git<br>
+    - cd SimpleVST
 2. Open the project:
-    Open __SimpleVST.jucer__
+    - Open _SimpleVST.jucer_
 3. Configure Xcode:
-    In Projucer, set __Selected exporter__ to Xcode (MacOS)
-    Open it on Xcode
+    - In Projucer, set _Selected exporter_ to Xcode (MacOS)
+    - Open it on Xcode
 4. Compile the plugin:
-    In Xcode, select __Simple VST - Standalone__ plugin and run the project
+    - In Xcode, select _Simple VST - Standalone_ plugin and run the project
     
 ## Contributing
 ### To contribute to my project:
-1. Click the “Fork” button at the top-right corner to create your own copy of the repository
+1. Click the _Fork_ button at the top-right corner to create your own copy of the repository
 2. From the terminal:
-    git clone https://github.com/LudoLozza/SimpleVST.git
-    cd SimpleVST
+    - git clone https://github.com/LudoLozza/SimpleVST.git
+    - cd SimpleVST
 3. Create your branch:
-    git checkout -b my-branch
+    - git checkout -b my-branch
 4. Make your changes:
-    Add new features or fix bugs in the code, make sure they are well-documented
+    - Add new features or fix bugs in the code, make sure they are well-documented
 5. Commit:
-    git add .
-    git commit -m "Describe your changes"
+    - git add .
+    - git commit -m "Commit message"
 6. Push:
-    git push origin my-branch
+    - git push origin my-branch
 7. Submit Pull Request:
-    Go to your fork on GitHub and click the “New Pull Request” button, clearly describing the changes you’ve made.
+    - Go to your fork on GitHub and click the _New Pull Request_ button, clearly describing the changes you’ve made.
     
     
     
