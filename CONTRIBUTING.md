@@ -1,7 +1,7 @@
 ### To contribute to my project:
 1. Click the _Fork_ button at the top-right corner to create your own copy of the repository
 2. From the terminal:
-    - git clone https://github.com/LudoLozza/SimpleVST.git
+    - git clone https://github.com/YourUsername/SimpleVST.git
     - cd SimpleVST
 3. Create your branch:
     - git checkout -b my-branch
